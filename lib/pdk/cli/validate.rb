@@ -15,6 +15,7 @@ module PDK::CLI
 
     flag nil, :list, _('list all available validators')
     flag :a, 'auto-correct', _('automatically correct problems (where possible)')
+    flag nil, :parallel, _('run validations in parallel'), hidden: true
 
     run do |opts, args, _cmd|
       if args == ['help']
@@ -75,15 +76,41 @@ module PDK::CLI
 
       options = targets.empty? ? {} : { targets: targets }
       options[:auto_correct] = true if opts.key?(:'auto-correct')
-
-      exit_code = 0
+      options[:parallel] = true if opts.key?(:parallel)
 
       # Ensure that the bundle is installed and tools are available before running any validations.
       PDK::Util::Bundler.ensure_bundle!
 
-      validators.each do |validator|
-        exit_code = validator.invoke(report, options)
-        break if exit_code != 0
+      PDK::CLI::Util.ensure_in_module!
+
+      exit_code = 0
+      if opts[:parallel]
+        threaded_spinner = PDK::CLI::Spinner.new_validation_spinner(validators.count, options)
+
+        threads = []
+        exit_codes = []
+        validators.each do |validator|
+          Dir.chdir(PDK::Util.module_root) do
+            threads << Thread.new do
+              require 'pdk/i18n'
+              exit_codes << validator.invoke(report, options)
+            end
+          end
+        end
+
+        threads.each(&:join)
+
+        exit_code = exit_codes.max
+        if exit_code.zero?
+          threaded_spinner.success
+        else
+          threaded_spinner.error
+        end
+      else
+        validators.each do |validator|
+          exit_code = validator.invoke(report, options)
+          break if exit_code != 0
+        end
       end
 
       report_formats.each do |format|

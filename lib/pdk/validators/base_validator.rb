@@ -46,6 +46,10 @@ module PDK
         _('Invoking %{cmd}') % { cmd: cmd }
       end
 
+      def self.short_spinner_text(_targets = nil)
+        spinner_text
+      end
+
       def self.invoke(report, options = {})
         targets = parse_targets(options)
 
@@ -67,7 +71,11 @@ module PDK
 
           command = PDK::CLI::Exec::Command.new(*cmd_argv).tap do |c|
             c.context = :module
-            c.add_spinner(spinner_text(invokation_targets))
+            if options[:parallel]
+              c.add_threaded_spinner(short_spinner_text(invokation_targets), spinner_text(invokation_targets), options)
+            else
+              c.add_spinner(spinner_text(invokation_targets))
+            end
           end
 
           result = command.execute!

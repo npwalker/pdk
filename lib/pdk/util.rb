@@ -152,5 +152,43 @@ module PDK
       json_result
     end
     module_function :find_valid_json_in
+
+    # Returns the targets' paths relative to the working directory
+    #
+    # @return Array<String> The absolute or path to the target
+    def targets_relative_to_pwd(targets)
+      targets.map do |t|
+        if Pathname.new(t).absolute?
+          Pathname.new(t).relative_path_from(Pathname.pwd)
+        else
+          t
+        end
+      end
+    end
+    module_function :targets_relative_to_pwd
+
+    # Returns the appropriate platform specific spinner output
+    #
+    # @return String
+    def print_spinner_message(message, exit_code, opts = {})
+      if Gem.win_platform?
+        success_message = opts[:success] || 'done'
+        failure_message = opts[:failure] || 'FAILED'
+      else
+        success_message = opts[:success] || "\u2714".encode('UTF-8')
+        failure_message = opts[:failure] || "\u2716".encode('UTF-8')
+      end
+
+      if exit_code.zero? && Gem.win_platform?
+        STDERR.puts "#{message}...#{success_message}"
+      elsif exit_code.zero?
+        STDERR.puts "[#{success_message}] #{message}"
+      elsif Gem.win_platform?
+        STDERR.puts "#{message}...#{failure_message}"
+      else
+        STDERR.puts "[#{failure_message}] #{message}"
+      end
+    end
+    module_function :print_spinner_message
   end
 end

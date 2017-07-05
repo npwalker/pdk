@@ -1,7 +1,6 @@
 require 'bundler'
 require 'childprocess'
 require 'tempfile'
-require 'tty-spinner'
 require 'tty-which'
 
 require 'pdk/util'
@@ -105,7 +104,16 @@ module PDK
           @success_message = opts.delete(:success)
           @failure_message = opts.delete(:failure)
 
-          @spinner = Gem.win_platform? ? WindowsSpinner.new(message, opts) : TTY::Spinner.new("[:spinner] #{message}", opts)
+          @spinner = PDK::CLI::Spinner.new_spinner(message, opts)
+        end
+
+        def add_threaded_spinner(message, long_message, opts = {})
+          spinner = PDK::CLI::Spinner.threaded_spinner
+          spinner.add_to_list(:validations, message)
+
+          spinner.on(:done) do
+            PDK::Util.print_spinner_message(long_message, @process.exit_code, opts)
+          end
         end
 
         def execute!
@@ -137,31 +145,15 @@ module PDK
             # Make sure invocation of Ruby prefers our private installation.
             @process.environment['PATH'] = [RbConfig::CONFIG['bindir'], ENV['PATH']].compact.join(File::PATH_SEPARATOR)
 
-            mod_root = PDK::Util.module_root
-
-            unless mod_root
-              @spinner.error
-
-              raise PDK::CLI::FatalError, _('Current working directory is not part of a module. (No metadata.json was found.)')
-            end
-
-            Dir.chdir(mod_root) do
-              ::Bundler.with_clean_env do
-                run_process!
-              end
+            ::Bundler.with_clean_env do
+              run_process!
             end
           else
             run_process!
           end
 
           # Stop spinning when done (if configured).
-          if @spinner
-            if @process.exit_code.zero?
-              @spinner.success(@success_message || '')
-            else
-              @spinner.error(@failure_message || '')
-            end
-          end
+          stop_spinner
 
           @stdout.rewind
           @stderr.rewind
@@ -180,6 +172,17 @@ module PDK
         end
 
         protected
+
+        def stop_spinner
+          return unless @spinner
+
+          # If it is a single spinner, we need to send it a success/error message
+          if @process.exit_code.zero?
+            @spinner.success(@success_message || '')
+          else
+            @spinner.error(@failure_message || '')
+          end
+        end
 
         def run_process!
           command_string = argv.join(' ')
@@ -202,30 +205,6 @@ module PDK
             @process.wait
           end
           @duration = Time.now - start_time
-        end
-      end
-
-      # This is a placeholder until we integrate ansicon into Windows packaging
-      # or come up with some other progress indicator for Windows.
-      class WindowsSpinner
-        def initialize(message, _opts = {})
-          @message = message
-        end
-
-        def auto_spin
-          $stderr.print @message << '...'
-        end
-
-        def success(message = '')
-          message = 'done.' if message.nil? || message.empty?
-
-          $stderr.print message << "\n"
-        end
-
-        def error(message = '')
-          message = 'FAILED' if message.nil? || message.empty?
-
-          $stderr.print message << "\n"
         end
       end
     end

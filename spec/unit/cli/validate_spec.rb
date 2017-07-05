@@ -10,6 +10,7 @@ describe 'Running `pdk validate` in a module' do
   let(:report) { instance_double('PDK::Report').as_null_object }
 
   before(:each) do
+    allow(Dir).to receive(:chdir) { |_dir, &block| block.call }
     allow(PDK::Util::Bundler).to receive(:ensure_bundle!)
     allow(PDK::Util).to receive(:module_root).and_return('/path/to/testmodule')
     allow(PDK::Report).to receive(:new).and_return(report)

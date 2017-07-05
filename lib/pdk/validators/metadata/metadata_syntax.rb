@@ -14,12 +14,45 @@ module PDK
         'metadata.json'
       end
 
+      def self.spinner_text(targets = [])
+        _('Checking metadata syntax (%{targets})') % {
+          targets: PDK::Util.targets_relative_to_pwd(targets).join(' '),
+        }
+      end
+
+      def self.short_spinner_text(_targets = nil)
+        _('Metadata syntax')
+      end
+
+      def self.create_spinner(targets = [], options = {})
+        if options[:parallel]
+          @threaded_spinner = PDK::CLI::Spinner.threaded_spinner
+          @threaded_spinner.add_to_list :validations, short_spinner_text(targets)
+
+          @threaded_spinner.on(:done) do
+            PDK::Util.print_spinner_message(spinner_text(targets), @return_val, options)
+          end
+        else
+          @spinner = PDK::CLI::Spinner.new_spinner(spinner_text(targets), options)
+          @spinner.auto_spin
+        end
+      end
+
+      def self.stop_serial_spinner
+        if @return_val.zero? && @spinner
+          @spinner.success
+        elsif @spinner
+          @spinner.error
+        end
+      end
+
       def self.invoke(report, options = {})
         targets = parse_targets(options)
 
         return 0 if targets.empty?
 
-        return_val = 0
+        @return_val = 0
+        create_spinner(targets, options)
 
         # The pure ruby JSON parser gives much nicer parse error messages than
         # the C extension at the cost of slightly slower parsing. We require it
@@ -37,7 +70,7 @@ module PDK
               severity: 'error',
               message:  _('not a file'),
             )
-            return_val = 1
+            @return_val = 1
             next
           end
 
@@ -49,7 +82,7 @@ module PDK
               severity: 'error',
               message: _('could not be read'),
             )
-            return_val = 1
+            @return_val = 1
             next
           end
 
@@ -76,11 +109,12 @@ module PDK
               severity: 'error',
               message:  sane_message,
             )
-            return_val = 1
+            @return_val = 1
           end
         end
 
-        return_val
+        stop_serial_spinner
+        @return_val
       ensure
         JSON.parser = JSON::Ext::Parser if defined?(JSON::Ext::Parser)
       end
