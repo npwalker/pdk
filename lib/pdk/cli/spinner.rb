@@ -6,14 +6,11 @@ module PDK
       def self.new_validation_spinner(count, opts = {})
         raise PDK::CLI::FatalError, 'A threaded spinner already exists' unless @spinner.nil?
 
-        if Gem.win_platform?
-          @spinner = WindowsSpinner.new(_("Validating using #{count} threads"), opts)
-          @spinner.auto_spin
-        else
-          @spinner = ThreadedSpinner.new(opts)
-          @spinner.add _("Using #{count} threads. Validating: :validations.")
-          @spinner.add_list :validations
-        end
+        PDK::Util.spinner_opts_for_platform(opts)
+
+        @spinner = ThreadedSpinner.new(opts)
+        @spinner.add _("Using #{count} threads. Validating: :validations.")
+        @spinner.add_list :validations
 
         @spinner
       end
@@ -27,7 +24,9 @@ module PDK
       end
 
       def self.new_spinner(message, opts = {})
-        Gem.win_platform? ? WindowsSpinner.new(message, opts) : TTY::Spinner.new("[:spinner] #{message}", opts)
+        PDK::Util.spinner_opts_for_platform(opts)
+
+        TTY::Spinner.new("[:spinner] #{message}", opts)
       end
 
       class ThreadedSpinner
@@ -100,47 +99,6 @@ module PDK
           raise PDK::CLI::FatalError, _("The event :#{key} does not exist. Only :done, :success, and :error allowed.") unless [:done, :success, :error].include? key
 
           @spinner.on(key, &block)
-        end
-      end
-    end
-
-    # This is a placeholder until we integrate ansicon into Windows packaging
-    # or come up with some other progress indicator for Windows.
-    class WindowsSpinner
-      def initialize(message, _opts = {})
-        @message = message
-        @block_list = []
-      end
-
-      def auto_spin
-        $stderr.print @message << '...'
-      end
-
-      def add_to_list(list_key, msg); end
-
-      def success(message = '')
-        message = 'done.' if message.nil? || message.empty?
-
-        $stderr.print message << "\n"
-        emit
-      end
-
-      def error(message = '')
-        message = 'FAILED' if message.nil? || message.empty?
-
-        $stderr.print message << "\n"
-        emit
-      end
-
-      def on(key, &block)
-        raise PDK::CLI::FatalError, _("The event :#{key} does not exist. Only :done allowed.") unless [:done].include? key
-
-        @block_list.push(block)
-      end
-
-      def emit
-        @block_list.each do |block|
-          block.call
         end
       end
     end

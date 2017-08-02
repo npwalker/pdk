@@ -167,17 +167,22 @@ module PDK
     end
     module_function :targets_relative_to_pwd
 
+    def spinner_opts_for_platform(opts = {})
+      return unless Gem.win_platform?
+
+      opts[:success_mark] = '*'
+      opts[:error_mark] = 'X'
+    end
+    module_function :spinner_opts_for_platform
+
     # Returns the appropriate platform specific spinner output
     #
     # @return String
     def print_spinner_message(message, exit_code, opts = {})
-      if Gem.win_platform?
-        success_message = opts[:success] || 'done'
-        failure_message = opts[:failure] || 'FAILED'
-      else
-        success_message = opts[:success] || "\u2714".encode('UTF-8')
-        failure_message = opts[:failure] || "\u2716".encode('UTF-8')
-      end
+      spinner_opts_for_platform(opts)
+
+      success_message = opts[:success_mark] || "\u2714".encode('UTF-8')
+      failure_message = opts[:error_mark] || "\u2716".encode('UTF-8')
 
       if exit_code.zero? && Gem.win_platform?
         STDERR.puts "#{message}...#{success_message}"
