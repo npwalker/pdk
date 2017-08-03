@@ -35,7 +35,7 @@ class validate_all { }
     describe command('pdk validate --parallel') do
       its(:exit_status) { is_expected.to eq(0) }
       its(:stderr) { is_expected.to match(%r{Running all available validators}i) }
-      its(:stderr) { is_expected.to match(%r{using 3 threads}i) }
+      its(:stderr) { is_expected.to match(%r{Validating module using \d+ threads}i) }
       its(:stderr) { is_expected.to match(%r{Checking metadata syntax \(metadata\.json\)}i) }
       its(:stderr) { is_expected.to match(%r{Checking metadata style \(metadata\.json\)}i) }
       its(:stderr) { is_expected.to match(%r{Checking Puppet manifest syntax}i) }

@@ -20,22 +20,14 @@ module PDK
         }
       end
 
-      def self.short_spinner_text(_targets = nil)
-        _('Metadata syntax')
-      end
-
-      def self.create_spinner(targets = [], options = {})
-        if options[:parallel]
-          @threaded_spinner = PDK::CLI::Spinner.threaded_spinner
-          @threaded_spinner.add_to_list :validations, short_spinner_text(targets)
-
-          @threaded_spinner.on(:done) do
-            PDK::Util.print_spinner_message(spinner_text(targets), @return_val, options)
-          end
-        else
-          @spinner = PDK::CLI::Spinner.new_spinner(spinner_text(targets), options)
-          @spinner.auto_spin
-        end
+      def self.create_spinner(threaded_spinner, targets = [], options = {})
+        PDK::Util.spinner_opts_for_platform(options)
+        @spinner = if options[:parallel]
+                     threaded_spinner.register("[:spinner] #{spinner_text(targets)}", options)
+                   else
+                     TTY::Spinner.new("[:spinner] #{spinner_text(targets)}", options)
+                   end
+        @spinner.auto_spin
       end
 
       def self.stop_serial_spinner
@@ -46,13 +38,15 @@ module PDK
         end
       end
 
-      def self.invoke(report, options = {})
+      def self.invoke(report, *args)
+        options = args.pop if args.last.is_a?(::Hash)
+        threaded_spinner = args.pop if args.last.is_a?(::TTY::Spinner::Multi)
         targets = parse_targets(options)
 
         return 0 if targets.empty?
 
         @return_val = 0
-        create_spinner(targets, options)
+        create_spinner(threaded_spinner, targets, options)
 
         # The pure ruby JSON parser gives much nicer parse error messages than
         # the C extension at the cost of slightly slower parsing. We require it

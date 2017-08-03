@@ -4,7 +4,10 @@ source 'https://rubygems.org'
 gemspec
 
 # avoid newer versions that do not support ruby 2.1 anymore
+gem 'minitest'
 gem 'nokogiri', '1.7.2'
+gem 'tty-prompt', path: '~/src/tty/tty-prompt'
+gem 'tty-spinner', path: '~/src/tty/tty-spinner'
 
 group :development do
   gem 'activesupport', '4.2.9'

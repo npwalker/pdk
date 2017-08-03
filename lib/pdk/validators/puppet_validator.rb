@@ -15,11 +15,11 @@ module PDK
         [PuppetSyntax, PuppetLint]
       end
 
-      def self.invoke(report, options = {})
+      def self.invoke(*args)
         exit_code = 0
 
         puppet_validators.each do |validator|
-          exit_code = validator.invoke(report, options)
+          exit_code = validator.invoke(*args)
           break if exit_code != 0
         end
 

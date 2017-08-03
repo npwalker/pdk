@@ -22,10 +22,6 @@ module PDK
         _('Checking Puppet manifest style')
       end
 
-      def self.short_spinner_text(_targets)
-        _('Puppet style')
-      end
-
       def self.parse_options(options, targets)
         cmd_options = ['--json']
 

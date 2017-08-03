@@ -21,10 +21,6 @@ module PDK
         _('Checking Puppet manifest syntax')
       end
 
-      def self.short_spinner_text(_targets = nil)
-        _('Puppet syntax')
-      end
-
       def self.parse_options(_options, targets)
         %w[parser validate].concat(targets)
       end

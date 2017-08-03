@@ -15,11 +15,11 @@ module PDK
         [MetadataSyntax, MetadataJSONLint]
       end
 
-      def self.invoke(report, options = {})
+      def self.invoke(*args)
         exit_code = 0
 
         metadata_validators.each do |validator|
-          exit_code = validator.invoke(report, options)
+          exit_code = validator.invoke(*args)
           break if exit_code != 0
         end
 

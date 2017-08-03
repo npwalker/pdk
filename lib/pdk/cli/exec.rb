@@ -104,16 +104,13 @@ module PDK
           @success_message = opts.delete(:success)
           @failure_message = opts.delete(:failure)
 
-          @spinner = PDK::CLI::Spinner.new_spinner(message, opts)
+          PDK::Util.spinner_opts_for_platform(opts)
+
+          @spinner = TTY::Spinner.new("[:spinner] #{message}", opts)
         end
 
-        def add_threaded_spinner(message, long_message, opts = {})
-          spinner = PDK::CLI::Spinner.threaded_spinner
-          spinner.add_to_list(:validations, message)
-
-          spinner.on(:done) do
-            PDK::Util.print_spinner_message(long_message, @process.exit_code, opts)
-          end
+        def add_threaded_spinner(threaded_spinner, long_message, opts = {})
+          @spinner = threaded_spinner.register("[:spinner] #{long_message}", opts)
         end
 
         def execute!

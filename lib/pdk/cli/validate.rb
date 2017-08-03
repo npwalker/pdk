@@ -1,4 +1,5 @@
 require 'pdk/util/bundler'
+require 'tty-spinner'
 
 module PDK::CLI
   @validate_cmd = @base_cmd.define_command do
@@ -85,7 +86,19 @@ module PDK::CLI
 
       exit_code = 0
       if opts[:parallel]
-        threaded_spinner = PDK::CLI::Spinner.new_validation_spinner(validators.count, options)
+        spinner_opts = {
+          indent: 4,
+          style: {
+            top: "\u250c ",
+            middle: "\u251c\u2500\u2500",
+            bottom: "\u2514\u2500\u2500",
+          },
+        }
+
+        PDK::Util.spinner_opts_for_platform(spinner_opts)
+
+        threaded_spinner = TTY::Spinner::Multi.new("[:spinner] #{_('Validating module using %{num_of_threads} threads' % { num_of_threads: validators.count })}", spinner_opts)
+        threaded_spinner.auto_spin
 
         threads = []
         exit_codes = []
@@ -94,7 +107,7 @@ module PDK::CLI
             threads << Thread.new do
               GettextSetup.initialize(File.absolute_path('../../../locales', File.dirname(__FILE__)))
               GettextSetup.negotiate_locale!(GettextSetup.candidate_locales)
-              exit_codes << validator.invoke(report, options)
+              exit_codes << validator.invoke(report, threaded_spinner, options)
             end
           end
         end

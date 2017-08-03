@@ -25,10 +25,6 @@ module PDK
         }
       end
 
-      def self.short_spinner_text(_targets = nil)
-        _('Metadata style')
-      end
-
       def self.pattern
         'metadata.json'
       end

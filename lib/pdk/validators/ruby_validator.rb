@@ -14,11 +14,11 @@ module PDK
         [Rubocop]
       end
 
-      def self.invoke(report, options = {})
+      def self.invoke(*args)
         exit_code = 0
 
         ruby_validators.each do |validator|
-          exit_code = validator.invoke(report, options)
+          exit_code = validator.invoke(*args)
           break if exit_code != 0
         end
 
