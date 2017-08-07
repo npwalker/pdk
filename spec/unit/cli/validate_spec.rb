@@ -28,6 +28,25 @@ describe 'Running `pdk validate` in a module' do
         expect(error.status).to eq(0)
       }
     end
+
+    context 'with --parallel' do
+      let(:spinner) { instance_double('TTY::Spinner::Multi').as_null_object }
+
+      before(:each) do
+        allow(TTY::Spinner::Multi).to receive(:new).and_return(spinner)
+      end
+      it 'invokes each validator with no report and no options and exits zero' do
+        expect(validators).to all(receive(:invoke).with(report, spinner, parallel: true).and_return(0))
+
+        expect(logger).to receive(:info).with('Running all available validators...')
+
+        expect {
+          PDK::CLI.run(['validate', '--parallel'])
+        }.to raise_error(SystemExit) { |error|
+          expect(error.status).to eq(0)
+        }
+      end
+    end
   end
 
   context 'when the --list option is provided' do
