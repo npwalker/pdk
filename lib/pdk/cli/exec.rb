@@ -149,9 +149,11 @@ module PDK
               raise PDK::CLI::FatalError, _('Current working directory is not part of a module. (No metadata.json was found.)')
             end
 
-            Dir.chdir(mod_root) do
-              ::Bundler.with_clean_env do
-                run_process!
+            if Dir.pwd == mod_root
+              run_process_in_clean_env!
+            else
+              Dir.chdir(mod_root) do
+                run_process_in_clean_env!
               end
             end
           else
@@ -187,6 +189,12 @@ module PDK
             @spinner.success(@success_message || '')
           else
             @spinner.error(@failure_message || '')
+          end
+        end
+
+        def run_process_in_clean_env!
+          ::Bundler.with_clean_env do
+            run_process!
           end
         end
 
