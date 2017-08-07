@@ -86,15 +86,7 @@ module PDK::CLI
 
       exit_code = 0
       if opts[:parallel]
-        spinner_opts = {
-          indent: 4,
-          style: {
-            top: "\u250c ",
-            middle: "\u251c\u2500\u2500",
-            bottom: "\u2514\u2500\u2500",
-          },
-        }
-
+        spinner_opts = {}
         PDK::Util.spinner_opts_for_platform(spinner_opts)
 
         threaded_spinner = TTY::Spinner::Multi.new("[:spinner] #{_('Validating module using %{num_of_threads} threads' % { num_of_threads: validators.count })}", spinner_opts)
