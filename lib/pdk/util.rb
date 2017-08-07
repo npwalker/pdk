@@ -155,7 +155,7 @@ module PDK
 
     # Returns the targets' paths relative to the working directory
     #
-    # @return Array<String> The absolute or path to the target
+    # @return [Array<String>] The absolute or path to the target
     def targets_relative_to_pwd(targets)
       targets.map do |t|
         if Pathname.new(t).absolute?
