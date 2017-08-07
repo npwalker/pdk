@@ -1,6 +1,7 @@
 require 'bundler'
 require 'childprocess'
 require 'tempfile'
+require 'tty-spinner'
 require 'tty-which'
 
 require 'pdk/util'
@@ -104,9 +105,7 @@ module PDK
           @success_message = opts.delete(:success)
           @failure_message = opts.delete(:failure)
 
-          PDK::Util.spinner_opts_for_platform(opts)
-
-          @spinner = TTY::Spinner.new("[:spinner] #{message}", opts)
+          @spinner = TTY::Spinner.new("[:spinner] #{message}", opts.merge(PDK::Util.spinner_opts_for_platform))
         end
 
         def add_threaded_spinner(threaded_spinner, long_message, opts = {})
@@ -142,8 +141,18 @@ module PDK
             # Make sure invocation of Ruby prefers our private installation.
             @process.environment['PATH'] = [RbConfig::CONFIG['bindir'], ENV['PATH']].compact.join(File::PATH_SEPARATOR)
 
-            ::Bundler.with_clean_env do
-              run_process!
+            mod_root = PDK::Util.module_root
+
+            unless mod_root
+              @spinner.error
+
+              raise PDK::CLI::FatalError, _('Current working directory is not part of a module. (No metadata.json was found.)')
+            end
+
+            Dir.chdir(mod_root) do
+              ::Bundler.with_clean_env do
+                run_process!
+              end
             end
           else
             run_process!

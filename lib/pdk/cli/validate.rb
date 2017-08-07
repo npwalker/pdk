@@ -79,15 +79,9 @@ module PDK::CLI
       options[:auto_correct] = true if opts.key?(:'auto-correct')
       options[:parallel] = true if opts.key?(:parallel)
 
-      # Ensure that the bundle is installed and tools are available before running any validations.
-      PDK::Util::Bundler.ensure_bundle!
-
-      PDK::CLI::Util.ensure_in_module!
-
       exit_code = 0
       if opts[:parallel]
-        spinner_opts = {}
-        PDK::Util.spinner_opts_for_platform(spinner_opts)
+        spinner_opts = PDK::Util.spinner_opts_for_platform
 
         threaded_spinner = TTY::Spinner::Multi.new("[:spinner] #{_('Validating module using %{num_of_threads} threads' % { num_of_threads: validators.count })}", spinner_opts)
         threaded_spinner.auto_spin
@@ -95,12 +89,10 @@ module PDK::CLI
         threads = []
         exit_codes = []
         validators.each do |validator|
-          Dir.chdir(PDK::Util.module_root) do
-            threads << Thread.new do
-              GettextSetup.initialize(File.absolute_path('../../../locales', File.dirname(__FILE__)))
-              GettextSetup.negotiate_locale!(GettextSetup.candidate_locales)
-              exit_codes << validator.invoke(report, threaded_spinner, options)
-            end
+          threads << Thread.new do
+            GettextSetup.initialize(File.absolute_path('../../../locales', File.dirname(__FILE__)))
+            GettextSetup.negotiate_locale!(GettextSetup.candidate_locales)
+            exit_codes << validator.invoke(report, threaded_spinner, options)
           end
         end
 

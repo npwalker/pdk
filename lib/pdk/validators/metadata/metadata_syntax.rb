@@ -21,7 +21,8 @@ module PDK
       end
 
       def self.create_spinner(threaded_spinner, targets = [], options = {})
-        PDK::Util.spinner_opts_for_platform(options)
+        options = options.merge(PDK::Util.spinner_opts_for_platform)
+
         @spinner = if options[:parallel]
                      threaded_spinner.register("[:spinner] #{spinner_text(targets)}", options)
                    else
@@ -30,8 +31,8 @@ module PDK
         @spinner.auto_spin
       end
 
-      def self.stop_serial_spinner
-        if @return_val.zero? && @spinner
+      def self.stop_spinner(exit_code)
+        if exit_code.zero? && @spinner
           @spinner.success
         elsif @spinner
           @spinner.error
@@ -45,7 +46,7 @@ module PDK
 
         return 0 if targets.empty?
 
-        @return_val = 0
+        return_val = 0
         create_spinner(threaded_spinner, targets, options)
 
         # The pure ruby JSON parser gives much nicer parse error messages than
@@ -64,7 +65,7 @@ module PDK
               severity: 'error',
               message:  _('not a file'),
             )
-            @return_val = 1
+            return_val = 1
             next
           end
 
@@ -76,7 +77,7 @@ module PDK
               severity: 'error',
               message: _('could not be read'),
             )
-            @return_val = 1
+            return_val = 1
             next
           end
 
@@ -103,12 +104,12 @@ module PDK
               severity: 'error',
               message:  sane_message,
             )
-            @return_val = 1
+            return_val = 1
           end
         end
 
-        stop_serial_spinner
-        @return_val
+        stop_spinner(return_val)
+        return_val
       ensure
         JSON.parser = JSON::Ext::Parser if defined?(JSON::Ext::Parser)
       end

@@ -167,11 +167,14 @@ module PDK
     end
     module_function :targets_relative_to_pwd
 
-    def spinner_opts_for_platform(opts = {})
-      return unless Gem.win_platform?
+    def spinner_opts_for_platform
+      windows_opts = {
+        success_mark: '*',
+        error_mark: 'X',
+      }
 
-      opts[:success_mark] = '*'
-      opts[:error_mark] = 'X'
+      return windows_opts if Gem.win_platform?
+      {}
     end
     module_function :spinner_opts_for_platform
   end
