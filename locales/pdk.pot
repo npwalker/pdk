@@ -6,11 +6,11 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: puppet development kit v0.5.0-15-ge1995bd\n"
+"Project-Id-Version: puppet development kit v0.5.0-90-g4f429f1\n"
 "\n"
 "Report-Msgid-Bugs-To: docs@puppet.com\n"
-"POT-Creation-Date: 2017-07-25 10:13-0700\n"
-"PO-Revision-Date: 2017-07-25 10:13-0700\n"
+"POT-Creation-Date: 2017-08-07 15:19+0100\n"
+"PO-Revision-Date: 2017-08-07 15:19+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -39,39 +39,39 @@ msgstr ""
 msgid "Unable to write '%{file}': %{msg}"
 msgstr ""
 
-#: ../lib/pdk/cli.rb:36
+#: ../lib/pdk/cli.rb:35
 msgid "Specifies the URL to the template to use when creating new modules, and other parts."
 msgstr ""
 
-#: ../lib/pdk/cli.rb:41
+#: ../lib/pdk/cli.rb:40
 msgid "pdk command [options]"
 msgstr ""
 
-#: ../lib/pdk/cli.rb:42
+#: ../lib/pdk/cli.rb:41
 msgid "Puppet Development Kit"
 msgstr ""
 
-#: ../lib/pdk/cli.rb:43
+#: ../lib/pdk/cli.rb:42
 msgid "The shortest path to better modules."
 msgstr ""
 
-#: ../lib/pdk/cli.rb:46
+#: ../lib/pdk/cli.rb:45
 msgid "show version of pdk"
 msgstr ""
 
-#: ../lib/pdk/cli.rb:51
+#: ../lib/pdk/cli.rb:50
 msgid "show help for this command"
 msgstr ""
 
-#: ../lib/pdk/cli.rb:56
+#: ../lib/pdk/cli.rb:55
 msgid "Specify desired output format. Valid formats are '%{available_formats}'. You may also specify a file to which the formatted output will be directed, for example: '--format=junit:report.xml'. This option may be specified multiple times as long as each option specifies a distinct target file."
 msgstr ""
 
-#: ../lib/pdk/cli.rb:67
+#: ../lib/pdk/cli.rb:66
 msgid "Enable debug output."
 msgstr ""
 
-#: ../lib/pdk/cli.rb:71
+#: ../lib/pdk/cli.rb:70
 msgid "Path to an answer file"
 msgstr ""
 
@@ -111,11 +111,11 @@ msgstr ""
 msgid "Expected execution context to be :system or :module but got '%{context}'"
 msgstr ""
 
-#: ../lib/pdk/cli/exec.rb:188
+#: ../lib/pdk/cli/exec.rb:186
 msgid "Executing '%{command}'"
 msgstr ""
 
-#: ../lib/pdk/cli/exec.rb:192
+#: ../lib/pdk/cli/exec.rb:191
 msgid "Failed to execute '%{command}': %{message}"
 msgstr ""
 
@@ -156,37 +156,17 @@ msgid "Specifies the license this module is written under. This should be a iden
 msgstr ""
 
 #: ../lib/pdk/cli/new/module.rb:13
-msgid "Specifies the version control driver. Valid values: 'git', 'none'. Default: 'git'."
-msgstr ""
-
-#: ../lib/pdk/cli/new/module.rb:15
 msgid "When specified, skips interactive querying of metadata."
 msgstr ""
 
-#: ../lib/pdk/cli/new/module.rb:29
+#: ../lib/pdk/cli/new/module.rb:27
 msgid ""
 "'%{module_name}' is not a valid module name.\n"
 "Module names must begin with a lowercase letter and can only include lowercase letters, digits, and underscores."
 msgstr ""
 
-#: ../lib/pdk/cli/new/module.rb:40
+#: ../lib/pdk/cli/new/module.rb:37
 msgid "Creating new module: %{modname}"
-msgstr ""
-
-#: ../lib/pdk/cli/spinner.rb:10
-msgid "\"Validating using #{count} threads\""
-msgstr ""
-
-#: ../lib/pdk/cli/spinner.rb:14
-msgid "\"Using #{count} threads. Validating: :validations.\""
-msgstr ""
-
-#: ../lib/pdk/cli/spinner.rb:100
-msgid "\"The event :#{key} does not exist. Only :done, :success, and :error allowed.\""
-msgstr ""
-
-#: ../lib/pdk/cli/spinner.rb:136
-msgid "\"The event :#{key} does not exist. Only :done allowed.\""
 msgstr ""
 
 #: ../lib/pdk/cli/test.rb:5
@@ -209,19 +189,23 @@ msgstr ""
 msgid "list all available unit tests and their descriptions"
 msgstr ""
 
-#: ../lib/pdk/cli/test/unit.rb:12
+#: ../lib/pdk/cli/test/unit.rb:11
+msgid "run unit tests in parallel"
+msgstr ""
+
+#: ../lib/pdk/cli/test/unit.rb:13
 msgid "a comma-separated list of tests to run"
 msgstr ""
 
-#: ../lib/pdk/cli/test/unit.rb:29
+#: ../lib/pdk/cli/test/unit.rb:30
 msgid "No examples found."
 msgstr ""
 
-#: ../lib/pdk/cli/test/unit.rb:31
+#: ../lib/pdk/cli/test/unit.rb:32
 msgid "Examples:"
 msgstr ""
 
-#: ../lib/pdk/cli/test/unit.rb:33
+#: ../lib/pdk/cli/test/unit.rb:34
 msgid "%{id}\t%{description}"
 msgstr ""
 
@@ -261,15 +245,15 @@ msgstr ""
 msgid "Non-standard data type '%{type}', make sure the type is available in your code, or dependencies"
 msgstr ""
 
-#: ../lib/pdk/cli/validate.rb:6
+#: ../lib/pdk/cli/validate.rb:7
 msgid "validate [validators] [options] [targets]"
 msgstr ""
 
-#: ../lib/pdk/cli/validate.rb:7
+#: ../lib/pdk/cli/validate.rb:8
 msgid "Run static analysis tests."
 msgstr ""
 
-#: ../lib/pdk/cli/validate.rb:8
+#: ../lib/pdk/cli/validate.rb:9
 msgid ""
 "Run metadata, puppet, or ruby validation.\n"
 "\n"
@@ -278,27 +262,27 @@ msgid ""
 "[targets] is an optional space separated list of files or directories to be validated. If not specified, the validators will be run against all applicable files in the module."
 msgstr ""
 
-#: ../lib/pdk/cli/validate.rb:16
+#: ../lib/pdk/cli/validate.rb:17
 msgid "list all available validators"
 msgstr ""
 
-#: ../lib/pdk/cli/validate.rb:17
+#: ../lib/pdk/cli/validate.rb:18
 msgid "automatically correct problems (where possible)"
 msgstr ""
 
-#: ../lib/pdk/cli/validate.rb:18
+#: ../lib/pdk/cli/validate.rb:19
 msgid "run validations in parallel"
 msgstr ""
 
-#: ../lib/pdk/cli/validate.rb:31
+#: ../lib/pdk/cli/validate.rb:32
 msgid "Available validators: %{validator_names}"
 msgstr ""
 
-#: ../lib/pdk/cli/validate.rb:47
+#: ../lib/pdk/cli/validate.rb:48
 msgid "Unknown validator '%{v}'. Available validators: %{validators}"
 msgstr ""
 
-#: ../lib/pdk/cli/validate.rb:57 ../lib/pdk/cli/validate.rb:61
+#: ../lib/pdk/cli/validate.rb:58 ../lib/pdk/cli/validate.rb:62
 msgid "Running all available validators..."
 msgstr ""
 
@@ -306,87 +290,95 @@ msgstr ""
 msgid "The destination directory '%{dir}' already exists"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:62
-msgid "You username is not a valid Forge username, proceeding with the username %{username}"
+#: ../lib/pdk/generators/module.rb:34
+msgid "You do not have permission to write to '%{parent_dir}'"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:101
-msgid "Unable to create directory '%{dir}'"
+#: ../lib/pdk/generators/module.rb:68
+msgid "Failed to move '%{source}' to '%{target}': %{message}"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:110
+#: ../lib/pdk/generators/module.rb:82
+msgid "Your username is not a valid Forge username, proceeding with the username %{username}. You can fix this afterwards in metadata.json."
+msgstr ""
+
+#: ../lib/pdk/generators/module.rb:121
+msgid "Unable to create directory '%{dir}': %{message}"
+msgstr ""
+
+#: ../lib/pdk/generators/module.rb:133
 msgid "What is your Puppet Forge username?"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:111
+#: ../lib/pdk/generators/module.rb:134
 msgid "This will be used when uploading your module to the Forge. You can opt out of this at any time."
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:114
+#: ../lib/pdk/generators/module.rb:137
 msgid "Forge usernames can only contain lowercase letters and numbers"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:119
+#: ../lib/pdk/generators/module.rb:142
 msgid "What version is this module?"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:120
+#: ../lib/pdk/generators/module.rb:143
 msgid "Puppet uses Semantic Versioning (semver.org) to version modules."
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:123
+#: ../lib/pdk/generators/module.rb:146
 msgid "Semantic Version numbers must be in the form MAJOR.MINOR.PATCH"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:128
+#: ../lib/pdk/generators/module.rb:151
 msgid "Who wrote this module?"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:129
+#: ../lib/pdk/generators/module.rb:152
 msgid "The person who gets credit for creating the module. "
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:135
+#: ../lib/pdk/generators/module.rb:158
 msgid "What license does this module code fall under?"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:136
+#: ../lib/pdk/generators/module.rb:159
 msgid "This should be an identifier from https://spdk.org/licenses/. Common values are \"Apache-2.0\", \"MIT\", or \"proprietary\"."
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:142
+#: ../lib/pdk/generators/module.rb:165
 msgid "How would you describe this module in a single sentence?"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:143
+#: ../lib/pdk/generators/module.rb:166
 msgid "To help other Puppet users understand what the module does."
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:149
+#: ../lib/pdk/generators/module.rb:172
 msgid "Where is this modules's source code repository?"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:150
+#: ../lib/pdk/generators/module.rb:173
 msgid "Usually a GitHub URL"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:156
+#: ../lib/pdk/generators/module.rb:179
 msgid "Where can others go to learn more about this module?"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:157
+#: ../lib/pdk/generators/module.rb:180
 msgid "A web site that offers full information about your module."
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:162
+#: ../lib/pdk/generators/module.rb:185
 msgid "Where can others go to file issues about this module?"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:163
+#: ../lib/pdk/generators/module.rb:186
 msgid "A web site with a public bug tracker for your module."
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:176
+#: ../lib/pdk/generators/module.rb:199
 msgid ""
 "\n"
 "We need to create a metadata.json file for this module, so we're going to ask you %{count} quick questions.\n"
@@ -394,43 +386,51 @@ msgid ""
 "\n"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:184
+#: ../lib/pdk/generators/module.rb:207
 msgid "Interview cancelled, not generating the module."
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:194
+#: ../lib/pdk/generators/module.rb:217
 msgid "SUMMARY"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:200
+#: ../lib/pdk/generators/module.rb:223
 msgid "About to generate this module; continue?"
 msgstr ""
 
-#: ../lib/pdk/generators/module.rb:201
+#: ../lib/pdk/generators/module.rb:224
 msgid "Module not generated."
 msgstr ""
 
-#: ../lib/pdk/generators/puppet_object.rb:87
+#: ../lib/pdk/generators/puppet_object.rb:88
 msgid "Unable to generate class, '%{file}' already exists."
 msgstr ""
 
-#: ../lib/pdk/generators/puppet_object.rb:112
+#: ../lib/pdk/generators/puppet_object.rb:118
 msgid "Creating '%{file}' from template."
 msgstr ""
 
-#: ../lib/pdk/generators/puppet_object.rb:135
+#: ../lib/pdk/generators/puppet_object.rb:124
+msgid "Unable to create directory '%{path}': %{message}"
+msgstr ""
+
+#: ../lib/pdk/generators/puppet_object.rb:132
+msgid "Unable to write to file '%{path}': %{message}"
+msgstr ""
+
+#: ../lib/pdk/generators/puppet_object.rb:155
 msgid "No %{dir_type} template specified; trying next template directory."
 msgstr ""
 
-#: ../lib/pdk/generators/puppet_object.rb:148
+#: ../lib/pdk/generators/puppet_object.rb:168
 msgid "Unable to find a %{type} template in %{url}, trying next template directory"
 msgstr ""
 
-#: ../lib/pdk/generators/puppet_object.rb:150
+#: ../lib/pdk/generators/puppet_object.rb:170
 msgid "Unable to find the %{type} template in %{url}."
 msgstr ""
 
-#: ../lib/pdk/generators/puppet_object.rb:207
+#: ../lib/pdk/generators/puppet_object.rb:227
 msgid "'%{dir}' does not contain valid Puppet module metadata: %{msg}"
 msgstr ""
 
@@ -516,28 +516,32 @@ msgstr ""
 msgid "'%{template}' is not a readable file"
 msgstr ""
 
-#: ../lib/pdk/tests/unit.rb:25
+#: ../lib/pdk/tests/unit.rb:32
+msgid "Running unit tests in parallel"
+msgstr ""
+
+#: ../lib/pdk/tests/unit.rb:32
 msgid "Running unit tests"
 msgstr ""
 
-#: ../lib/pdk/tests/unit.rb:29
+#: ../lib/pdk/tests/unit.rb:37
 msgid "Running %{cmd}"
 msgstr ""
 
-#: ../lib/pdk/tests/unit.rb:46
+#: ../lib/pdk/tests/unit.rb:52
 msgid "Unit test output did not contain a valid JSON result: %{output}"
 msgstr ""
 
-#: ../lib/pdk/tests/unit.rb:94
+#: ../lib/pdk/tests/unit.rb:102
 msgid "Evaluated %{total} tests in %{duration} seconds: %{failures} failures, %{pending} pending"
 msgstr ""
 
-#: ../lib/pdk/tests/unit.rb:118
-msgid "Unable to enumerate examples. rspec reported: %{message}"
+#: ../lib/pdk/tests/unit.rb:159
+msgid "Failed to find valid JSON in output from rspec: %{output}"
 msgstr ""
 
-#: ../lib/pdk/tests/unit.rb:127
-msgid "Failed to parse output from rspec: %{message}"
+#: ../lib/pdk/tests/unit.rb:164
+msgid "Unable to enumerate examples. rspec reported: %{message}"
 msgstr ""
 
 #: ../lib/pdk/util.rb:47
@@ -548,39 +552,43 @@ msgstr ""
 msgid "Package basedir requested for non-package install"
 msgstr ""
 
-#: ../lib/pdk/util/bundler.rb:14
+#: ../lib/pdk/util/bundler.rb:15
 msgid "Bundle has already been installed, skipping run"
 msgstr ""
 
-#: ../lib/pdk/util/bundler.rb:19
+#: ../lib/pdk/util/bundler.rb:20
 msgid "No Gemfile found in '%{cwd}', skipping bundler management"
 msgstr ""
 
-#: ../lib/pdk/util/bundler.rb:25
+#: ../lib/pdk/util/bundler.rb:31
+msgid "No Gemfile.lock found in module, using vendored Gemfile.lock from '%{source}'"
+msgstr ""
+
+#: ../lib/pdk/util/bundler.rb:37
 msgid "Unable to resolve Gemfile dependencies."
 msgstr ""
 
-#: ../lib/pdk/util/bundler.rb:31
+#: ../lib/pdk/util/bundler.rb:44
 msgid "Unable to install missing Gemfile dependencies."
 msgstr ""
 
-#: ../lib/pdk/util/bundler.rb:50
+#: ../lib/pdk/util/bundler.rb:63
 msgid "Unable to install requested binstubs."
 msgstr ""
 
-#: ../lib/pdk/util/bundler.rb:64
+#: ../lib/pdk/util/bundler.rb:77
 msgid "Checking for missing Gemfile dependencies."
 msgstr ""
 
-#: ../lib/pdk/util/bundler.rb:81
+#: ../lib/pdk/util/bundler.rb:94
 msgid "Resolving Gemfile dependencies"
 msgstr ""
 
-#: ../lib/pdk/util/bundler.rb:99
+#: ../lib/pdk/util/bundler.rb:112
 msgid "Installing missing Gemfile dependencies"
 msgstr ""
 
-#: ../lib/pdk/util/bundler.rb:121
+#: ../lib/pdk/util/bundler.rb:134
 msgid "Failed to generate binstubs for %{gems}"
 msgstr ""
 
@@ -592,23 +600,15 @@ msgstr ""
 msgid "Checking metadata style (%{targets})"
 msgstr ""
 
-#: ../lib/pdk/validators/metadata/metadata_json_lint.rb:29
-msgid "Metadata style"
-msgstr ""
-
 #: ../lib/pdk/validators/metadata/metadata_syntax.rb:18
 msgid "Checking metadata syntax (%{targets})"
 msgstr ""
 
-#: ../lib/pdk/validators/metadata/metadata_syntax.rb:24
-msgid "Metadata syntax"
-msgstr ""
-
-#: ../lib/pdk/validators/metadata/metadata_syntax.rb:71
+#: ../lib/pdk/validators/metadata/metadata_syntax.rb:65
 msgid "not a file"
 msgstr ""
 
-#: ../lib/pdk/validators/metadata/metadata_syntax.rb:83
+#: ../lib/pdk/validators/metadata/metadata_syntax.rb:77
 msgid "could not be read"
 msgstr ""
 
@@ -616,24 +616,12 @@ msgstr ""
 msgid "Checking Puppet manifest style"
 msgstr ""
 
-#: ../lib/pdk/validators/puppet/puppet_lint.rb:26
-msgid "Puppet style"
-msgstr ""
-
 #: ../lib/pdk/validators/puppet/puppet_syntax.rb:21
 msgid "Checking Puppet manifest syntax"
 msgstr ""
 
-#: ../lib/pdk/validators/puppet/puppet_syntax.rb:25
-msgid "Puppet syntax"
-msgstr ""
-
 #: ../lib/pdk/validators/ruby/rubocop.rb:20
 msgid "Checking Ruby code style"
-msgstr ""
-
-#: ../lib/pdk/validators/ruby/rubocop.rb:24
-msgid "Ruby style"
 msgstr ""
 
 #: ../lib/puppet/util/windows/api_types.rb:68
